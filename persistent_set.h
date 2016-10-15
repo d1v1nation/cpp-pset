@@ -88,7 +88,7 @@ class persistent_set::node : public std::enable_shared_from_this<node> // al pri
     friend class persistent_set;
     friend class persistent_set;
     friend class persistent_set::iterator;
-    
+
 };
 
 struct persistent_set::iterator

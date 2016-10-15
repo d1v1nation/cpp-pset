@@ -90,8 +90,7 @@ persistent_set::persistent_set() {
     root = std::shared_ptr<node>(new persistent_set::node);
 }
 
-persistent_set::persistent_set(persistent_set const & other) {
-    root = other.root->get_shared();
+persistent_set::persistent_set(persistent_set const & other) : root(other.root) {
 }
 
 persistent_set &persistent_set::operator=(persistent_set const &rhs) {
@@ -134,7 +133,8 @@ std::pair<persistent_set::iterator, bool> persistent_set::insert(persistent_set:
 
         desc.pop_front(); // remove nullptr
 
-        root = rebuild(desc, newnode);
+        const nodeptr &res = rebuild(desc, newnode);
+        root = res;
 
 
         // update root
@@ -213,7 +213,8 @@ void persistent_set::erase(persistent_set::iterator iter) {
     nodeptr old = iter.asc.front();
     iter.asc.pop_front();
 
-    root = rebuild(iter.asc, cur, true, old->value);
+    const nodeptr &ptr = rebuild(iter.asc, cur, true, old->value);
+    root = ptr;
 }
 
 persistent_set::nodeptr
